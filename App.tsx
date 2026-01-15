@@ -10,11 +10,11 @@ const App: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isDarkMode, setIsDarkMode] = useState(true);
-  
+
   // Cart State
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  
+
   // Checkout State
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [checkoutStep, setCheckoutStep] = useState<'select' | 'loading' | 'payment'>('select');
@@ -35,8 +35,8 @@ const App: React.FC = () => {
     document.documentElement.classList.toggle('dark');
   };
 
-  const filteredProducts = selectedCategory === 'all' 
-    ? PRODUCTS 
+  const filteredProducts = selectedCategory === 'all'
+    ? PRODUCTS
     : PRODUCTS.filter(p => p.category === selectedCategory);
 
   const addToCart = (product: Product) => {
@@ -72,44 +72,44 @@ const App: React.FC = () => {
   const cartTotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
   return (
-    <div className="flex h-screen w-full bg-slate-50 dark:bg-[#020617] transition-colors duration-500 overflow-hidden font-sans">
+    <div className="flex h-screen w-full bg-surface-dark transition-colors duration-500 overflow-hidden font-sans text-slate-100">
       <Sidebar collapsed={sidebarCollapsed} onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} />
 
-      <main id="main-scroll" className="flex-1 flex flex-col overflow-y-auto custom-scrollbar relative">
-        
+      <main id="main-scroll" className="flex-1 flex flex-col overflow-y-auto custom-scrollbar relative bg-[#020617]">
+
         {/* Urgent System Notice */}
-        <div className="bg-rose-500/10 border-b border-rose-500/20 px-6 py-2 flex items-center justify-center gap-4 text-[10px] font-black uppercase tracking-widest text-rose-500">
-           <span className="material-symbols-outlined text-sm animate-pulse">warning</span>
-           <span>Attention: Accounts with no top-up for 5+ days will be deleted. Minimum top-up is $150.00</span>
+        <div className="bg-primary/10 border-b border-primary/20 px-6 py-2.5 flex items-center justify-center gap-4 text-[10px] font-black uppercase tracking-[0.3em] text-primary">
+          <span className="material-symbols-outlined text-sm animate-pulse">warning</span>
+          <span>Attention: Accounts with no top-up for 5+ days will be deleted. Minimum top-up is $150.00</span>
         </div>
 
-        <header className={`sticky top-0 z-30 px-6 py-4 flex items-center justify-between transition-all duration-300 border-b ${scrolled ? 'bg-white/70 dark:bg-[#020617]/70 backdrop-blur-xl border-slate-200 dark:border-white/5 py-3 shadow-sm' : 'bg-transparent border-transparent'}`}>
+        <header className={`sticky top-0 z-30 px-6 py-4 flex items-center justify-between transition-all duration-300 border-b ${scrolled ? 'bg-surface-dark/80 backdrop-blur-xl border-white/10 py-3 shadow-2xl' : 'bg-transparent border-transparent'}`}>
           <div className="flex-1 max-w-xl">
             <div className="relative group">
-              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xl group-focus-within:text-primary transition-colors">search</span>
-              <input type="text" placeholder="Search accounts, bots, tools..." className="w-full pl-12 pr-4 py-2.5 rounded-2xl bg-slate-100 dark:bg-white/5 border border-transparent focus:bg-white dark:focus:bg-white/10 focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all text-sm dark:text-white" />
+              <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-xl group-focus-within:text-primary transition-colors">search</span>
+              <input type="text" placeholder="Search accounts, bots, tools..." className="w-full pl-12 pr-4 py-2.5 rounded-xl bg-surface-card border border-white/5 focus:bg-white/10 focus:border-primary/20 focus:ring-4 focus:ring-primary/5 outline-none transition-all text-sm text-white" />
             </div>
           </div>
 
           <div className="flex items-center gap-3 ml-4">
-            <button onClick={toggleDarkMode} className="p-2.5 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 hover:text-primary dark:hover:text-white transition-all border border-slate-200 dark:border-white/5">
+            <button onClick={toggleDarkMode} className="p-2.5 rounded-xl bg-surface-card text-slate-500 hover:text-white transition-all border border-white/5">
               <span className="material-symbols-outlined text-[22px]">{isDarkMode ? 'light_mode' : 'dark_mode'}</span>
             </button>
 
             {/* Cart Button */}
-            <button onClick={() => setIsCartOpen(!isCartOpen)} className="relative p-2.5 rounded-xl bg-slate-100 dark:bg-white/5 text-slate-500 hover:text-primary dark:hover:text-white transition-all border border-slate-200 dark:border-white/5">
+            <button onClick={() => setIsCartOpen(!isCartOpen)} className="relative p-2.5 rounded-xl bg-surface-card text-slate-500 hover:text-white transition-all border border-white/5">
               <span className="material-symbols-outlined text-[22px]">shopping_basket</span>
               {cart.length > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-sidebar-dark">
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-primary text-black text-[10px] font-black rounded-full flex items-center justify-center border-2 border-surface-dark">
                   {cart.length}
                 </span>
               )}
             </button>
 
-            <div className="hidden sm:flex items-center gap-3 bg-primary/5 dark:bg-primary/10 border border-primary/20 rounded-xl px-4 py-2">
+            <div className="hidden sm:flex items-center gap-3 bg-primary/10 border border-primary/20 rounded-xl px-4 py-2">
               <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Balance</span>
-              <span className="text-slate-900 dark:text-white font-extrabold text-sm">$1,240.00</span>
-              <button className="bg-primary text-white p-1 rounded-lg hover:scale-105 transition-transform">
+              <span className="text-white font-black text-sm">$1,240.00</span>
+              <button className="bg-primary text-black p-1 rounded-lg hover:scale-105 transition-transform">
                 <span className="material-symbols-outlined text-sm font-bold">add</span>
               </button>
             </div>
@@ -120,8 +120,8 @@ const App: React.FC = () => {
               </div>
               <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-[#0a0f1d] border border-slate-200 dark:border-white/10 rounded-2xl p-2 shadow-2xl opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200 z-50">
                 <div className="p-3 border-b border-slate-100 dark:border-white/5 mb-2">
-                   <p className="text-xs font-bold dark:text-white">Admin Account</p>
-                   <p className="text-[10px] text-slate-500">Premium Member</p>
+                  <p className="text-xs font-bold dark:text-white">Admin Account</p>
+                  <p className="text-[10px] text-slate-500">Premium Member</p>
                 </div>
                 <div className="p-2 hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl text-xs font-bold transition-colors">Account Settings</div>
                 <div className="p-2 hover:bg-slate-50 dark:hover:bg-white/5 rounded-xl text-xs font-bold transition-colors">Order History</div>
@@ -139,7 +139,7 @@ const App: React.FC = () => {
               <div className="p-6 border-b border-white/5 flex items-center justify-between">
                 <h3 className="text-lg font-black dark:text-white uppercase tracking-tight">Your Basket</h3>
                 <button onClick={() => setIsCartOpen(false)} className="p-2 rounded-xl hover:bg-white/5 transition-colors">
-                   <span className="material-symbols-outlined">close</span>
+                  <span className="material-symbols-outlined">close</span>
                 </button>
               </div>
               <div className="flex-1 overflow-y-auto p-6 custom-scrollbar">
@@ -172,7 +172,7 @@ const App: React.FC = () => {
                   <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">Subtotal</span>
                   <span className="text-xl font-black dark:text-white">${cartTotal.toFixed(2)}</span>
                 </div>
-                <button 
+                <button
                   disabled={cart.length === 0}
                   className="w-full py-4 bg-primary hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-black text-sm uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/20 transition-all active:scale-95"
                   onClick={() => {
@@ -192,11 +192,11 @@ const App: React.FC = () => {
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
             <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={() => setIsCheckoutOpen(false)}></div>
             <div className="bg-white dark:bg-[#0a0f1d] w-full max-w-lg rounded-[2.5rem] shadow-2xl relative overflow-hidden border border-white/10 animate-in zoom-in-95 duration-200">
-              
+
               <div className="p-8 border-b border-white/5 flex items-center justify-between">
                 <div>
                   <h3 className="text-xl font-black dark:text-white uppercase tracking-tight">Secure Payment</h3>
-                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Order #CV-{Math.floor(Math.random()*90000 + 10000)}</p>
+                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mt-1">Order #CV-{Math.floor(Math.random() * 90000 + 10000)}</p>
                 </div>
                 <button onClick={() => setIsCheckoutOpen(false)} className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 transition-colors">
                   <span className="material-symbols-outlined">close</span>
@@ -209,7 +209,7 @@ const App: React.FC = () => {
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Select Payment Method</p>
                     <div className="grid grid-cols-2 gap-4">
                       {CRYPTO_METHODS.map(method => (
-                        <button 
+                        <button
                           key={method.id}
                           onClick={() => setSelectedCrypto(method)}
                           className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center gap-3 ${selectedCrypto?.id === method.id ? 'bg-primary/10 border-primary' : 'bg-white/5 border-white/5 hover:border-white/20'}`}
@@ -219,7 +219,7 @@ const App: React.FC = () => {
                         </button>
                       ))}
                     </div>
-                    <button 
+                    <button
                       onClick={handlePayNow}
                       disabled={!selectedCrypto}
                       className="w-full py-4 bg-primary hover:bg-primary/90 disabled:opacity-50 text-white font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-primary/20 active:scale-95 mt-4"
@@ -267,8 +267,8 @@ const App: React.FC = () => {
                     </div>
 
                     <div className="flex gap-3">
-                       <button onClick={() => setCheckoutStep('select')} className="flex-1 py-4 bg-white/5 hover:bg-white/10 dark:text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all">Go Back</button>
-                       <button onClick={() => setIsCheckoutOpen(false)} className="flex-1 py-4 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-emerald-500/20">I Have Paid</button>
+                      <button onClick={() => setCheckoutStep('select')} className="flex-1 py-4 bg-white/5 hover:bg-white/10 dark:text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all">Go Back</button>
+                      <button onClick={() => setIsCheckoutOpen(false)} className="flex-1 py-4 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-black uppercase tracking-widest rounded-2xl transition-all shadow-xl shadow-emerald-500/20">I Have Paid</button>
                     </div>
                     <p className="text-[9px] text-center text-slate-500 uppercase font-bold">Transaction will be confirmed after 3 network validations.</p>
                   </div>
@@ -288,19 +288,18 @@ const App: React.FC = () => {
                 <button className="p-1.5 rounded-lg bg-slate-100 dark:bg-white/5 text-slate-400 hover:text-primary transition-all"><span className="material-symbols-outlined">chevron_right</span></button>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
               {CATEGORIES.map((cat) => (
-                <button 
+                <button
                   key={cat.id}
                   onClick={() => setSelectedCategory(cat.id)}
-                  className={`flex flex-col items-center justify-center h-28 rounded-2xl border transition-all duration-300 group ${
-                    selectedCategory === cat.id 
-                    ? 'bg-primary/10 border-primary shadow-lg shadow-primary/10' 
-                    : 'bg-white/60 dark:bg-white/5 border-slate-200 dark:border-white/10 hover:border-primary/40'
-                  }`}
+                  className={`flex flex-col items-center justify-center h-28 rounded-2xl border transition-all duration-300 group ${selectedCategory === cat.id
+                      ? 'bg-primary/10 border-primary shadow-lg shadow-primary/10'
+                      : 'bg-surface-card border-white/5 hover:border-primary/40'
+                    }`}
                 >
-                  <span className={`material-symbols-outlined mb-2 text-2xl transition-transform group-hover:scale-110 ${selectedCategory === cat.id ? 'text-primary fill-1 font-variation-fill-1' : 'text-slate-400 dark:text-slate-500 group-hover:text-primary'}`}>
+                  <span className={`material-symbols-outlined mb-2 text-2xl transition-transform group-hover:scale-110 ${selectedCategory === cat.id ? 'text-primary fill-1 font-variation-fill-1' : 'text-slate-500 group-hover:text-primary'}`}>
                     {cat.icon}
                   </span>
                   <span className={`text-[10px] font-bold tracking-wider ${selectedCategory === cat.id ? 'text-primary' : 'text-slate-500'}`}>
@@ -308,6 +307,34 @@ const App: React.FC = () => {
                   </span>
                 </button>
               ))}
+            </div>
+          </section>
+
+          {/* Hero Section */}
+          <section className="mb-12 relative overflow-hidden rounded-[2.5rem] bg-surface-card border border-white/5 p-8 md:p-12">
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/10 to-transparent pointer-events-none"></div>
+            <div className="relative z-10 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full mb-6">
+                <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary">Live Marketplace</span>
+              </div>
+              <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-6 leading-[0.9]">
+                THE <span className="text-primary">PLUG</span> YOU'VE BEEN <br /> LOOKING FOR.
+              </h1>
+              <p className="text-slate-400 text-lg mb-8 max-w-lg leading-relaxed">
+                Experience the next generation of digital asset trading. Real-time delivery, encrypted transactions, and 24/7 elite support.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <button className="px-8 py-4 bg-primary text-black font-black uppercase tracking-widest rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">Start Browsing</button>
+                <div className="flex items-center gap-4 px-6 py-4 bg-white/5 rounded-2xl border border-white/5">
+                  <div className="text-right">
+                    <p className="text-[10px] font-bold text-slate-500 uppercase">Total Volume</p>
+                    <p className="text-xl font-black text-white">$2.4M+</p>
+                  </div>
+                  <div className="w-[1px] h-8 bg-white/10"></div>
+                  <span className="material-symbols-outlined text-primary text-3xl">trending_up</span>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -323,10 +350,10 @@ const App: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 min-h-[400px]">
             {filteredProducts.length > 0 ? (
               filteredProducts.map(product => (
-                <ProductCard 
-                  key={product.id} 
-                  product={product} 
-                  onAddToCart={addToCart} 
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onAddToCart={addToCart}
                   onBuyNow={openCheckout}
                 />
               ))
@@ -339,30 +366,30 @@ const App: React.FC = () => {
           </div>
 
           {/* Stats Bar */}
-          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8 bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-slate-200/50 dark:border-white/10 rounded-[2rem]">
+          <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-8 bg-surface-card border border-white/5 rounded-[2rem]">
             <div>
-              <span className="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] block mb-2">Global Stock</span>
-              <span className="text-slate-900 dark:text-white text-3xl font-extrabold tracking-tight">{APP_STATS.globalStock}</span>
+              <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] block mb-2">Global Stock</span>
+              <span className="text-white text-3xl font-extrabold tracking-tight">{APP_STATS.globalStock}</span>
             </div>
             <div>
-              <span className="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] block mb-2">Active Users</span>
-              <span className="text-slate-900 dark:text-white text-3xl font-extrabold tracking-tight">{APP_STATS.activeUsers}</span>
+              <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] block mb-2">Active Users</span>
+              <span className="text-white text-3xl font-extrabold tracking-tight">{APP_STATS.activeUsers}</span>
             </div>
             <div>
-              <span className="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] block mb-2">24h Volume</span>
-              <span className="text-slate-900 dark:text-white text-3xl font-extrabold tracking-tight">{APP_STATS.volume24h}</span>
+              <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] block mb-2">24h Volume</span>
+              <span className="text-white text-3xl font-extrabold tracking-tight">{APP_STATS.volume24h}</span>
             </div>
             <div>
-              <span className="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] block mb-2">Network Status</span>
+              <span className="text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] block mb-2">Network Status</span>
               <div className="flex items-center gap-2 mt-1">
-                <div className="w-3 h-3 rounded-full bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.5)] animate-pulse"></div>
-                <span className="text-emerald-600 dark:text-emerald-500 text-xl font-bold">{APP_STATS.status}</span>
+                <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_12px_rgba(16,185,129,0.5)] animate-pulse"></div>
+                <span className="text-emerald-500 text-xl font-black">{APP_STATS.status}</span>
               </div>
             </div>
           </section>
         </div>
 
-        <footer className="p-8 text-center text-slate-400 text-xs border-t border-white/5 mt-auto">
+        <footer className="p-8 text-center text-slate-500 text-xs border-t border-white/5 mt-auto bg-surface-dark">
           <p>© 2025 CashVault Digital Asset Marketplace. All assets are subject to security verification.</p>
         </footer>
       </main>
